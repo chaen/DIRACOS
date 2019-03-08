@@ -23,5 +23,6 @@ setup(
                             'dos-fix-pip-versions=scripts.fixPipRequirementsVersions:main'
                              ],
     },
-    packages=find_packages()
+    packages=find_packages(),
+    package_data = {'diracos': ['scriptTemplates/*']},
 )

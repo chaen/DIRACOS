@@ -11,7 +11,8 @@ import subprocess
 import tempfile
 from yum import rpmUtils
 
-from diracos import BUILD_PYTHON_MODULE_SH_TPL_PATH, FIX_PIP_REQUIREMENTS_VERSIONS_SH_TPL_PATH
+from diracos import BUILD_PYTHON_MODULE_SH_TPL_PATH, FIX_PIP_REQUIREMENTS_VERSIONS_SH_TPL_PATH,\
+    DIRACOSRC_TPL_PATH, PYTHON_BUNDLE_LIB_PATH, BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH
 
 
 def _downloadFile(url, dest):
@@ -568,20 +569,25 @@ def bundleDIRACOS(fullCfg):
 
   logging.info("Bootstraping packaging of diracos")
 
-  # We copy the bundlelib and the json conf in the mock environment and run that
+  # We copy the bundlelib, the shell templates and the json conf in the /tmp folder
+  # of the mock environment and run the bundlelib.py
 
   mockInstallRoot = fullCfg['mockInstallRoot']
   mockInstallConfig = fullCfg['mockInstallConfig']
 
-  jsonConfPath = os.path.join(mockInstallRoot, 'root/tmp/conf.json')
-  bundlelibDestPath = os.path.join(mockInstallRoot, 'root/tmp/bundlelib.py')
-  bundlelibSrcPath = os.path.join(os.path.dirname(__file__), 'bundlelib.py')
+  mockTmpPath = os.path.join(mockInstallRoot, 'root/tmp')
 
-  shutil.copyfile(bundlelibSrcPath, bundlelibDestPath)
-  os.chmod(bundlelibDestPath, 0o755)
+  jsonConfPath = os.path.join(mockTmpPath, 'conf.json')
 
   with open(jsonConfPath, 'w') as jc:
     json.dump(fullCfg, jc)
+
+  for fileToCopy in (PYTHON_BUNDLE_LIB_PATH, BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH, DIRACOSRC_TPL_PATH):
+    fn = os.path.basename(fileToCopy)
+    destPathInMock = os.path.join(mockTmpPath, fn)
+    shutil.copyfile(fileToCopy, destPathInMock)
+    # Not strictly needed, but make it executable
+    os.chmod(destPathInMock, 0o755)
 
   bundleCmd = ['mock', '-r', mockInstallConfig, '--shell', 'python /tmp/bundlelib.py']
   subprocess.check_call(bundleCmd)

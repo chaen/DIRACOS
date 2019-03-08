@@ -11,8 +11,6 @@ import os
 import subprocess
 from yum import rpmUtils
 
-from diracos import BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH
-
 
 def _getPackageDependencies(packageSet, ignoredPackages=None):
   """ List the package on which a given set of package depends
@@ -181,7 +179,14 @@ def _doBundleDIRACOS(diracOsVersion, requiredPkg=None, repository=None, ignoredP
   if not removedFolders:
     removedFolders = ['aStupidRandomNameToAvoidDeletingSomethingUseful']
 
-  with open(BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH, 'r') as tplFile:
+  # At this point in time, we are in the mock environment. So the template shell script
+  # will not be anymore where BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH points,
+  # but in /tmp/, because that's where diracoslib.py put it before
+  # Also, we have no access to the BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH variable anymore anyway
+
+  bundleTpmPath = '/tmp/bundle_diracos_script_tpl.sh'
+
+  with open(bundleTpmPath, 'r') as tplFile:
     bundle_diracos_script_tpl = ''.join(tplFile.readlines())
 
   shellBundleScript = '/tmp/bundleDiracOS.sh'

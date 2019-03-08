@@ -11,3 +11,9 @@ FIX_PIP_REQUIREMENTS_VERSIONS_SH_TPL_PATH = path.join(SCRIPT_TPL_PATH, 'fix_pip_
 
 # Tpl script to make a bundle of everything
 BUNDLE_DIRACOS_SCRIPT_SH_TPL_PATH = path.join(SCRIPT_TPL_PATH, 'bundle_diracos_script_tpl.sh')
+
+# Tpl script of diracosrc
+DIRACOSRC_TPL_PATH = path.join(SCRIPT_TPL_PATH, 'diracosrc_tpl.sh')
+
+# The python bundling script that we have to put in the mock environment
+PYTHON_BUNDLE_LIB_PATH = path.join(path.dirname(path.realpath(__file__)), 'bundlelib.py')

@@ -31,3 +31,6 @@ cd /tmp/
 source $PIP_DIRAC/bin/activate
 pip install -r /tmp/requirements.txt
 virtualenv --relocatable $PIP_DIRAC
+
+# Dump the full list of python packages
+pip freeze 2>/dev/null 1> /tmp/pythonPackages.txt

@@ -50,8 +50,10 @@ echo "Adding the version list $DIRACOS_VERSION_FILE"
 echo -e "DIRACOS $DIRACOS_VERSION $(date -u)\n\n" > $DIRACOS_VERSION_FILE
 echo -e "===== RPM packages ====\n\n" >> $DIRACOS_VERSION_FILE
 cat /tmp/rpms.txt | sort >> $DIRACOS_VERSION_FILE
+
 echo -e "\n\n===== Python packages ====\n\n" >> $DIRACOS_VERSION_FILE
-cat /tmp/requirements.txt | sort >> $DIRACOS_VERSION_FILE
+# reminder: this file was generated when building the python modules
+cat /tmp/pythonPackages.txt | sort >> $DIRACOS_VERSION_FILE
 
 # Doing some cleanup
 echo "Removing useless folders"

@@ -27,13 +27,19 @@ echo "Installing pip-tools"
 pip install pip-tools
 
 
-# We need to install the dependencies such that pip-compile
-# can work
-echo "Pip build dependencies $PIP_BUILD_DEPENDENCIES"
+if [ ! -z $PIP_BUILD_DEPENDENCIES ];
+then
 
-echo "Installing dependency"
-yum install -y $PIP_BUILD_DEPENDENCIES
+  # We need to install the dependencies such that pip-compile
+  # can work
+  echo "Pip build dependencies $PIP_BUILD_DEPENDENCIES"
 
+  echo "Installing dependency"
+  yum install -y $PIP_BUILD_DEPENDENCIES
+
+else
+  echo "No dependencies to be installed"
+fi
 
 echo "Fixing the version"
 

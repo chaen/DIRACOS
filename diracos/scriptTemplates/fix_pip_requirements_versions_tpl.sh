@@ -18,17 +18,16 @@ PIP_BUILD_DEPENDENCIES="%(pipBuildDependencies)s"
 
 
 
-echo "Installing pip"
-cd /tmp
-curl -O -L https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-
-echo "Installing pip-tools"
-pip install pip-tools
-
-
 if [ ! -z $PIP_BUILD_DEPENDENCIES ];
 then
+  echo "Installing pip"
+  cd /tmp
+  curl -O -L https://bootstrap.pypa.io/get-pip.py
+  python get-pip.py
+
+  echo "Installing pip-tools"
+  pip install pip-tools
+
 
   # We need to install the dependencies such that pip-compile
   # can work

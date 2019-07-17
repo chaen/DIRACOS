@@ -651,7 +651,7 @@ def fixPipRequirementsVersions(mockInstallConfig,
   os.chmod(shellFixVersionsScript, 0o755)
 
   subprocess.check_call(fixVersionsCmd)
-
+  logging.info("PATH %s", fixedVersionPath)
   return fixedVersionPath
 
 

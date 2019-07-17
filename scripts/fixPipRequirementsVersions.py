@@ -21,7 +21,7 @@ def main():
   insideMock = bool(pipBuildDependencies)
 
   fixedVersionFile = diracoslib.fixPipRequirementsVersions(
-      mockInstallConfig, mockInstallRoot, pipRequirements, pipBuildDependencies, insideMock=insideMock)
+      mockInstallConfig, mockInstallRoot, pipRequirements, pipBuildDependencies, insideMock=True)
   print "Fixed version file in %s" % fixedVersionFile
 
 

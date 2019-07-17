@@ -3,7 +3,7 @@
 
 # Exit directly in case of errors
 set -e
-
+set -x
 # This is the file containing the loose requirements
 # It was copied there by fixPipRequirementsVersions
 PIP_REQUIREMENTS_LOOSE=/tmp/loose_requirements.txt

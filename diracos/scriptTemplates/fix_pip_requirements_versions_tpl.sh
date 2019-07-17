@@ -50,6 +50,10 @@ grep -v 'git+' $PIP_REQUIREMENTS_LOOSE > $PIP_REQUIREMENTS_FIXED
 
 # If there are packages from git, we can't compile them, so print a warning
 
+# We need to disable the 'exit on failure' feature because
+# grep will return an error if not finding any git+https package
+set +e
+
 gitPackages=$(grep 'git+https' $PIP_REQUIREMENTS_LOOSE)
 # gitpackageFound is 0 if packages were found
 gitPackagesRc=$?
@@ -63,6 +67,8 @@ then
   done;
 fi
 
+# Exit on failure again
+set -e
 
 # Now, compile all the non packages
 # The change is done in place
@@ -76,9 +82,9 @@ then
 fi
 
 # add back the git packages
-
+set +e
 grep 'git+https' $PIP_REQUIREMENTS_LOOSE >> $PIP_REQUIREMENTS_FIXED
-
+set -e
 
 # # First, copy the git requirements to the target file
 # grep 'git+' PIP_REQUIREMENTS_LOOSE > fixed_requirements.txt

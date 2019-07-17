@@ -665,10 +665,14 @@ def buildDiracOSExtension(extensionName, diracOsVersion, diracOsExtVersion, pipR
   # We need to put the requirments.txt in the proper directory.
   # if it is a file, we copy it, if not, we download it
   # The destination is always requirements.txt
+
   pipRequirementInTmp = os.path.join(tmpDir, 'requirements.txt')
+  logging.info("Putting requirements file in %s", pipRequirementInTmp)
   if os.path.isfile(pipRequirementFile):
+    logging.info("using standard file copy")
     shutil.copy(pipRequirementFile, pipRequirementInTmp)
   else:
+    logging.info("Donwloading...")
     _downloadFile(pipRequirementFile, pipRequirementInTmp)
 
   buildExtensionScript = os.path.join(tmpDir, 'build_diracos_extension.sh')
@@ -676,7 +680,7 @@ def buildDiracOSExtension(extensionName, diracOsVersion, diracOsExtVersion, pipR
     bes.write(build_diracos_extension_tpl % {'extensionName': extensionName,
                                              'diracOsVersion': diracOsVersion,
                                              'diracOsExtVersion': diracOsExtVersion,
-                                             'TMPLOC': tmpDir,
+                                             'tmpDir': tmpDir,
                                              })
   os.chmod(buildExtensionScript, 0o755)
 

@@ -20,10 +20,10 @@ DIRACOS_EXT_VERSION=%(diracOsExtVersion)s
 # The temporary location is created by XXX
 # Note: we do not use TMPDIR because it is
 # already used by standard tools
-TMPLOC=%s(tmpDir)s
+TMPLOC=%(tmpDir)s
 
 # Location where the building takes place
-DIRACOS_EXT=$TMPLOC/"$EXTENSION_NAME"diracos
+DIRACOS_EXT=$TMPLOC
 
 # Name of the requirements.txt file
 # It should have been placed there by XXX
@@ -82,10 +82,12 @@ comm -3 before.txt after.txt | sed 's/\t//g' | sort >> $DIRACOS_EXT_VERSION_FILE
 find $DIRACOS_PATH -name '*.py[oc]' -exec rm {} \;
 
 
+TAR_NAME="$EXTENSION_NAME"diracos-$DIRACOS_EXT_VERSION.tar.gz
 # The hard-dereference options allow to replace a hard link with a copy of the file.
 # A link pointing to nowhere would just be removed.
 # We do not use the dereference option (for symlinks) because there are just too many
-tar --hard-dereference -cvzf "$EXTENSION_NAME"diracos-$DIRACOS_EXT_VERSION.tar.gz diracos
+tar --hard-dereference -cvzf  $TAR_NAME diracos
+
 
 tarRc=$?
 # tar will probably return 1 because of --dereference and --hard-dereference (man tar is your friend)

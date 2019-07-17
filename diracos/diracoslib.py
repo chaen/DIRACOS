@@ -594,7 +594,7 @@ def bundleDIRACOS(fullCfg):
 def fixPipRequirementsVersions(mockInstallConfig,
                                mockInstallRoot,
                                pipRequirementFile,
-                               pipBuildDependencies):
+                               pipBuildDependencies, insideMock=True):
   """
 
       * packages from git are left untouched
@@ -612,36 +612,47 @@ def fixPipRequirementsVersions(mockInstallConfig,
   """
   # First, init the environment
 
-  mockInitCmd = ['mock', '-r', mockInstallConfig, '--init']
-  logging.debug("Initializing environment with: %s", mockInitCmd)
+  if insideMock:
 
-  subprocess.check_call(mockInitCmd)
+    mockInitCmd = ['mock', '-r', mockInstallConfig, '--init']
+    logging.debug("Initializing environment with: %s", mockInitCmd)
+
+    subprocess.check_call(mockInitCmd)
+
+    pipRequirementInBuildEnv = os.path.join(mockInstallRoot, 'root/tmp/loose_requirements.txt')
+    shellFixVersionsScript = os.path.join(mockInstallRoot, 'root/tmp/fixPipVersions.sh')
+    fixVersionsCmd = ['mock', '-r', mockInstallConfig, '--shell', '/tmp/fixPipVersions.sh']
+    fixedVersionPath = os.path.join(mockInstallRoot, 'root/tmp/fixed_requirements.txt')
+
+  else:
+    # The script expects a static location
+    pipRequirementInBuildEnv = '/tmp/loose_requirements.txt'
+    shellFixVersionsScript = '/tmp/fixPipVersions.sh'
+    fixVersionsCmd = ['/tmp/fixPipVersions.sh']
+    fixedVersionPath = '/tmp/fixed_requirements.txt'
 
   logging.info("Fixing versions of requirements file")
 
   # We need to put the requirments.txt in the mock directory.
   # if it is a file, we copy it, if not, we download it
   # The destination is always /tmp/loose_requirements.txt
-  pipRequirementInMock = os.path.join(mockInstallRoot, 'root/tmp/loose_requirements.txt')
   if os.path.isfile(pipRequirementFile):
-    shutil.copy(pipRequirementFile, pipRequirementInMock)
+    shutil.copy(pipRequirementFile, pipRequirementInBuildEnv)
   else:
-    _downloadFile(pipRequirementFile, pipRequirementInMock)
+    _downloadFile(pipRequirementFile, pipRequirementInBuildEnv)
 
   # We copy the script to fix the versions in the mock environment
 
   with open(FIX_PIP_REQUIREMENTS_VERSIONS_SH_TPL_PATH, 'r') as tplFile:
     fix_pip_requirements_versions_sh_tpl = ''.join(tplFile.readlines())
 
-  shellFixVersionsScript = os.path.join(mockInstallRoot, 'root/tmp/fixPipVersions.sh')
   with open(shellFixVersionsScript, 'w') as sbs:
     sbs.write(fix_pip_requirements_versions_sh_tpl % {'pipBuildDependencies': ' '.join(pipBuildDependencies)})
   os.chmod(shellFixVersionsScript, 0o755)
 
-  fixVersionsCmd = ['mock', '-r', mockInstallConfig, '--shell', '/tmp/fixPipVersions.sh']
   subprocess.check_call(fixVersionsCmd)
 
-  return os.path.join(mockInstallRoot, 'root/tmp/fixed_requirements.txt')
+  return fixedVersionPath
 
 
 def buildDiracOSExtension(extensionName, diracOsVersion, diracOsExtVersion, pipRequirementFile):
@@ -687,4 +698,4 @@ def buildDiracOSExtension(extensionName, diracOsVersion, diracOsExtVersion, pipR
   buildExtensionCmd = [buildExtensionScript]
   subprocess.check_call(buildExtensionCmd)
 
-  return os.path.join(tmpDir, '%sdiracos-%s.tar.gz'%(extensionName, diracOsExtVersion))
+  return os.path.join(tmpDir, '%sdiracos-%s.tar.gz' % (extensionName, diracOsExtVersion))

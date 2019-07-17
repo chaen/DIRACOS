@@ -38,6 +38,13 @@ then
 
 else
   echo "No dependencies to be installed"
+  echo "Install conda"
+  cd /tmp/
+  curl -O -L https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
+  chmod +x Miniconda2-latest-Linux-x86_64.sh
+  ./Miniconda2-latest-Linux-x86_64.sh -b -p /tmp/condaFixVersions
+  PATH=/tmp/condaFixVersions/bin:$PATH
+  pip install pip-tools
 fi
 
 echo "Fixing the version"
@@ -84,6 +91,14 @@ fi
 set +e
 grep 'git+https' $PIP_REQUIREMENTS_LOOSE >> $PIP_REQUIREMENTS_FIXED
 set -e
+
+
+
+if [ -z $PIP_BUILD_DEPENDENCIES ];
+then
+  echo "Removing conda"
+  rm -rf /tmp/condaFixVersions
+fi
 
 # # First, copy the git requirements to the target file
 # grep 'git+' PIP_REQUIREMENTS_LOOSE > fixed_requirements.txt

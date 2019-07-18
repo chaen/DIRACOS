@@ -613,6 +613,7 @@ def fixPipRequirementsVersions(mockInstallConfig,
 
       :returns: path to the requirements file with fixed versions
   """
+
   # First, init the environment
 
   if pipBuildDependencies:
@@ -629,7 +630,8 @@ def fixPipRequirementsVersions(mockInstallConfig,
     fixedVersionPath = os.path.join(mockInstallRoot, 'root/tmp/fixed_requirements.txt')
 
   else:
-    # The script expects a static location
+    # Set it to an empty dict if evalued to false
+    pipBuildDependencies = {}
 
     # Place the original requirements.txt and the scripts in local /tmp
     pipRequirementInBuildEnv = '/tmp/loose_requirements.txt'

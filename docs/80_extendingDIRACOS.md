@@ -4,7 +4,7 @@ Although DIRACOS tries to address most of the VOs needs, it might be that it doe
 
 ## Requesting a package to be added in DIRACOS
 
-If you think a package (RPMs or python) should be added to DIRACOS, please open a github issue (https://github.com/DIRACGrid/DIRACOS/issues), which will be marked with the `PackageRequest` tag. If it gathers enough thumbs up (Let say 5 from different VO), we will consider adding it.
+If you think a package (RPMs or python) should be added to DIRACOS, please open a [github issue](https://github.com/DIRACGrid/DIRACOS/issues), which will be marked with the `PackageRequest` tag. If it gathers enough thumbs up (Let say 5 from different VO), we will consider adding it.
 
 Note that it is not a guarantee, because we have to take into account other constraints (for example size).
 

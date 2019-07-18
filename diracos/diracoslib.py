@@ -667,14 +667,19 @@ def buildDiracOSExtension(extensionName, diracOsVersion, diracOsExtVersion, pipR
       Build a DIRACOS extension.
       This currently allows only for adding pure python packages to the extension.
 
-      :param fullCfg: full configuration loaded
+      It works by downloading a version of DIRACOS, setting it up in the environment,
+      and using pip (from DIRACOS) to install the extensions. A new tarball is generated
+      following the naming convention "<extensionName>diracos-<version>.tar.gz"
 
+      :param extensionName: name of the extension
+      :param diracOsVersion: version of DIRACOS on which to build the extension
+      :param diracOsExtVersion: version of the extension we are building
+      :param pipRequirementFile: path to the requirements.txt
+
+      :returns: path to the tar file.
   """
 
-  # We copy the script to fix the versions in the mock environment
-
-  with open(BUILD_DIRACOS_EXTENSION_TPL_PATH, 'r') as tplFile:
-    build_diracos_extension_tpl = ''.join(tplFile.readlines())
+  # The build happens in a temporary directory, no need for Mock since no build is needed
 
   # Creating a temporary directory.
   # We do not need to be in a mock environment, so just do it here
@@ -692,6 +697,11 @@ def buildDiracOSExtension(extensionName, diracOsVersion, diracOsExtVersion, pipR
   else:
     logging.info("Donwloading...")
     _downloadFile(pipRequirementFile, pipRequirementInTmp)
+
+  # Generate the script to build the extension
+
+  with open(BUILD_DIRACOS_EXTENSION_TPL_PATH, 'r') as tplFile:
+    build_diracos_extension_tpl = ''.join(tplFile.readlines())
 
   buildExtensionScript = os.path.join(tmpDir, 'build_diracos_extension.sh')
   with open(buildExtensionScript, 'w') as bes:

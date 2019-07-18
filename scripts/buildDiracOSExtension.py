@@ -1,9 +1,9 @@
 #!/usr/bin/env python
+""" Used to build an extension of DIRACOS"""
+
 import sys
-import json
 from diracos import Conf, diracoslib
 import logging
-import pprint
 
 
 def main():

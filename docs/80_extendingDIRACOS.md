@@ -8,7 +8,7 @@ If you think a package (RPMs or python) should be added to DIRACOS, please open 
 
 Note that it is not a guarantee, because we have to take into account other constraints (for example size).
 
-Spoiler alert: if you are asking for a new RPM, opening together the issue with a pull request will greatly serve your cause...
+**Spoiler alert**: if you are asking for a new RPM, opening together the issue with a pull request will greatly serve your cause...
 
 
 ## Adding pure python packages
@@ -19,11 +19,11 @@ In case you are extending just pure python packages, you should be able to do it
 ### Initial setup
 
 ```
-   # Install the few tools needed
-   yum install -y jq python-pip git
+# Install the few tools needed
+yum install -y jq python-pip git
 
-   # Install the diracos machinery (currently from github)
-   pip install git+https://github.com/DIRACGrid/DIRACOS.git
+# Install the diracos machinery (currently from github)
+pip install git+https://github.com/DIRACGrid/DIRACOS.git
 ```
 
 ### Configuration files
@@ -67,12 +67,11 @@ Because this is such a fragile operation, this is not and will not be supported.
 You need to define the following two parameters:
 
 * In the `releases.cfg` as a dependency of your release:
-
-```
-DIRACOS = <extensionName>:<extensionVersion>
-```
+  ```
+  DIRACOS = <extensionName>:<extensionVersion>
+  ```
 
 * In your project configuration (defined in`DefaultsLocation` used by `dirac-install` )
-```
-DIRACOS = <the web page where you host the DIRACOS extensions>
-```
+  ```
+  DIRACOS = <the web page where you host the DIRACOS extensions>
+  ```

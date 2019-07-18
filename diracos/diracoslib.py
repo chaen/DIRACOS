@@ -594,7 +594,7 @@ def bundleDIRACOS(fullCfg):
 def fixPipRequirementsVersions(mockInstallConfig,
                                mockInstallRoot,
                                pipRequirementFile,
-                               pipBuildDependencies, insideMock=True):
+                               pipBuildDependencies):
   """
 
       * packages from git are left untouched
@@ -602,6 +602,9 @@ def fixPipRequirementsVersions(mockInstallConfig,
       * requirements '<=' are fixed to '=='
       * requirements '>=' are fixed to the latest version available
       * requirements with no version are fixed to the latest available
+
+      If there are packages to build, we fix the version inside the Mock environment,
+      otherwise we use the local /tmp/ and Conda (because we need python 2.7)
 
       :param mockInstallConf: path to the mock config file in which to perform the build
       :param mockInstallRoot: root path of the mock installation
@@ -612,13 +615,14 @@ def fixPipRequirementsVersions(mockInstallConfig,
   """
   # First, init the environment
 
-  if insideMock:
+  if pipBuildDependencies:
 
     mockInitCmd = ['mock', '-r', mockInstallConfig, '--init']
     logging.debug("Initializing environment with: %s", mockInitCmd)
 
     subprocess.check_call(mockInitCmd)
 
+    # Place the original requirements.txt and the scripts inside the mock environment
     pipRequirementInBuildEnv = os.path.join(mockInstallRoot, 'root/tmp/loose_requirements.txt')
     shellFixVersionsScript = os.path.join(mockInstallRoot, 'root/tmp/fixPipVersions.sh')
     fixVersionsCmd = ['mock', '-r', mockInstallConfig, '--shell', '/tmp/fixPipVersions.sh']
@@ -626,6 +630,8 @@ def fixPipRequirementsVersions(mockInstallConfig,
 
   else:
     # The script expects a static location
+
+    # Place the original requirements.txt and the scripts in local /tmp
     pipRequirementInBuildEnv = '/tmp/loose_requirements.txt'
     shellFixVersionsScript = '/tmp/fixPipVersions.sh'
     fixVersionsCmd = ['/tmp/fixPipVersions.sh']
@@ -633,15 +639,14 @@ def fixPipRequirementsVersions(mockInstallConfig,
 
   logging.info("Fixing versions of requirements file")
 
-  # We need to put the requirments.txt in the mock directory.
-  # if it is a file, we copy it, if not, we download it
-  # The destination is always /tmp/loose_requirements.txt
+  # if requirements.txt is a file, we copy it, if not, we download it
+  # The destination is always /tmp/loose_requirements.txt (inside the Mock environment or not)
   if os.path.isfile(pipRequirementFile):
     shutil.copy(pipRequirementFile, pipRequirementInBuildEnv)
   else:
     _downloadFile(pipRequirementFile, pipRequirementInBuildEnv)
 
-  # We copy the script to fix the versions in the mock environment
+  # We write the script to fix the versions
 
   with open(FIX_PIP_REQUIREMENTS_VERSIONS_SH_TPL_PATH, 'r') as tplFile:
     fix_pip_requirements_versions_sh_tpl = ''.join(tplFile.readlines())
@@ -651,7 +656,7 @@ def fixPipRequirementsVersions(mockInstallConfig,
   os.chmod(shellFixVersionsScript, 0o755)
 
   subprocess.check_call(fixVersionsCmd)
-  logging.info("PATH %s", fixedVersionPath)
+
   return fixedVersionPath
 
 

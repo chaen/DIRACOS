@@ -81,6 +81,9 @@ comm -3 before.txt after.txt | sed 's/\t//g' | sort >> $DIRACOS_EXT_VERSION_FILE
 # Remove pyo and pyc
 find $DIRACOS_PATH -name '*.py[oc]' -exec rm {} \;
 
+# Fix the shebang
+grep -rIl "\#\!$DIRACOS_PATH/usr/bin/python" $DIRACOS_PATH | xargs sed -i "s:\#\!$DIRACOS_PATH/usr/bin/python:\#\!/usr/bin/env python:g"
+
 
 TAR_NAME="$EXTENSION_NAME"diracos-$DIRACOS_EXT_VERSION.tar.gz
 # The hard-dereference options allow to replace a hard link with a copy of the file.

@@ -1,19 +1,7 @@
-diff -r -u original/xrootd/bindings/python/setup.py.in patched/xrootd/bindings/python/setup.py.in
---- original/xrootd/bindings/python/setup.py.in 2020-02-03 08:55:35.000000000 +0000
-+++ patched/xrootd/bindings/python/setup.py.in  2020-02-21 13:48:15.466745239 +0000
-@@ -24,7 +24,7 @@
- cfg_vars["CXX"] = " ".join(cxxl)
- cfg_vars["PY_CXXFLAGS"] = "${CMAKE_CXX_FLAGS}"
-
--cfg_vars['LDSHARED'] = cfg_vars['LDSHARED'] + " -Wl,-rpath,${XRDCL_INSTALL}"
-+#cfg_vars['LDSHARED'] = cfg_vars['LDSHARED'] + " -Wl,-rpath,${XRDCL_INSTALL}"
-
- sources = list()
- depends = list()
 diff -r -u original/xrootd.spec patched/xrootd.spec
 --- original/xrootd.spec        2020-02-03 09:55:51.000000000 +0000
 +++ patched/xrootd.spec 2020-02-21 13:47:58.377652275 +0000
-@@ -77,11 +77,6 @@
+@@ -96,11 +96,6 @@
  BuildRequires: json-c-devel
 
  BuildRequires: python2-devel
@@ -25,7 +13,7 @@ diff -r -u original/xrootd.spec patched/xrootd.spec
 
  BuildRequires: openssl-devel
 
-@@ -300,21 +295,6 @@
+@@ -316,21 +311,6 @@
  %description -n python2-xrootd
  Python 2 bindings for XRootD
 
@@ -47,9 +35,9 @@ diff -r -u original/xrootd.spec patched/xrootd.spec
 
  #-------------------------------------------------------------------------------
  # doc
-@@ -464,12 +444,6 @@
- popd
- %endif
+@@ -448,12 +428,6 @@
+ 
+ doxygen Doxyfile
 
 -%if %{?_with_python3:1}%{!?_with_python3:0}
 -# build python3 bindings
@@ -60,7 +48,7 @@ diff -r -u original/xrootd.spec patched/xrootd.spec
 
  #-------------------------------------------------------------------------------
  # Installation
-@@ -586,12 +560,6 @@
+@@ -546,12 +520,6 @@
  install -m 644 -p packaging/common/xrootd.pp \
      %{buildroot}%{_datadir}/selinux/packages/%{name}/%{name}.pp
 
@@ -73,7 +61,7 @@ diff -r -u original/xrootd.spec patched/xrootd.spec
 
  %clean
  rm -rf $RPM_BUILD_ROOT
-@@ -883,11 +851,6 @@
+@@ -829,11 +797,6 @@
  %files -n python2-%{name} -f xrootd/build/PYTHON_INSTALLED_FILES
  %defattr(-,root,root,-)
 

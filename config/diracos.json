@@ -106,6 +106,11 @@
                   "src": "https://diracos.web.cern.ch/diracos/SRPM/yum-utils-1.1.30-42.el6_10.src.rpm",
                   "name": "yum-utils",
                   "buildOnly": true
+               },
+               {
+                  "src": "https://diracos.web.cern.ch/diracos/SRPM/jsoncpp-0.10.5-2.el6.src.rpm",
+                  "name": "jsoncpp",
+                  "buildOnly": true
                }
             ]
          },

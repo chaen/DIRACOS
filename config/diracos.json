@@ -453,6 +453,12 @@
                   "buildOnly": true
                },
                {
+                  "comment": "xrootd needs cmake3",
+                  "src": "https://diracos.web.cern.ch/diracos/SRPM/cmake3-3.6.1-3.el6.src.rpm",
+                  "name": "cmake3",
+                  "buildOnly": true
+               },
+               {
                   "src": "https://diracos.web.cern.ch/diracos/SRPM/xrootd-5.0.0-0.rc2.el7.src.rpm",
                   "comment": "The SRPM for scl6 and cc7 are the same, and they only provide cc7",
                   "originalRepo": "http://xrootd.web.cern.ch/xrootd/sw/releases",

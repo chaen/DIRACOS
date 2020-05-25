@@ -1,0 +1,22 @@
+diff -r -u cmake/cmake3.spec cmakemodif/cmake3.spec
+--- cmake/cmake3.spec   2017-08-08 19:25:55.000000000 +0000
++++ cmakemodif/cmake3.spec      2020-05-25 16:19:15.560756691 +0000
+@@ -301,18 +301,6 @@
+ %endif
+ 
+ 
+-%check
+-%if 0%{?rhel} && 0%{?rhel} <= 6
+-mv -f Modules/FindLibArchive.cmake Modules/FindLibArchive.disabled
+-%endif
+-pushd build
+-#CMake.FileDownload, and CTestTestUpload require internet access
+-bin/ctest%{?name_suffix} -V -E 'CMake.FileDownload|CTestTestUpload' %{?_smp_mflags}
+-popd
+-%if 0%{?rhel} && 0%{?rhel} <= 6
+-mv -f Modules/FindLibArchive.disabled Modules/FindLibArchive.cmake
+-%endif
+-
+ 
+ %if %{with gui}
+ %post gui

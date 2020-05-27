@@ -1,6 +1,15 @@
 diff -r -u cmake/cmake3.spec cmakemodif/cmake3.spec
 --- cmake/cmake3.spec   2017-08-08 19:25:55.000000000 +0000
-+++ cmakemodif/cmake3.spec      2020-05-26 12:19:27.317636134 +0000
++++ cmakemodif/cmake3.spec      2020-05-27 08:01:46.363988501 +0000
+@@ -181,7 +181,7 @@
+ %if %{with python3}
+ echo '#!%{__python3}' > %{name}.prov
+ %else
+-echo '#!%{__python2}' > %{name}.prov
++echo '#!/usr/bin/python2.7' > %{name}.prov
+ %endif
+ tail -n +2 %{SOURCE4} >> %{name}.prov
+ 
 @@ -301,18 +301,6 @@
  %endif
  

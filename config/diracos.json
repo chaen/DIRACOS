@@ -301,6 +301,7 @@
                   "buildOnly": true
                },
                {
+                  "comment": "We patch this srpm to download only from iweb and not liquidtelecom, which fails 9/10 times",
                   "src": "https://diracos.web.cern.ch/diracos/SRPM/globus-xio-udt-driver-1.20-1.el6+gt6.src.rpm",
                   "name": "globus-xio-udt-driver",
                   "buildOnly": true

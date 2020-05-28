@@ -1,0 +1,12 @@
+diff -u -r original/globus_xio_udt_driver-1.20/udt/Makefile.in modified/globus_xio_udt_driver-1.20/udt/Makefile.in
+--- original/globus_xio_udt_driver-1.20/udt/Makefile.in 2016-04-28 00:28:21.487640596 +0000
++++ modified/globus_xio_udt_driver-1.20/udt/Makefile.in 2020-05-28 14:19:57.072764732 +0000
+@@ -378,7 +378,7 @@
+ top_srcdir = @top_srcdir@
+ udt_version = 4.11
+ udt_tarball = udt.sdk.$(udt_version).tar.gz
+-udt_tarball_url = http://downloads.sourceforge.net/project/udt/udt/$(udt_version)/$(udt_tarball)
++udt_tarball_url = http://downloads.sourceforge.net/project/udt/udt/$(udt_version)/$(udt_tarball)?use_mirror=iweb
+ privlibdir = $(libdir)/globus
+ privlib_LTLIBRARIES = libudt.la
+ libudt_la_SOURCES = globus_udt_config.h

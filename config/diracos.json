@@ -470,7 +470,8 @@
                      "xrootd-client-libs",
                      "xrootd-client-devel",
                      "xrootd-client",
-                     "python2-xrootd"
+                     "python2-xrootd",
+                     "xrootd-private-devel"
                   ]
                }
             ]
@@ -480,7 +481,7 @@
             "packages": [
                {
                   "src": "http://dmc-repo.web.cern.ch/dmc-repo/el6/x86_64/davix-0.7.6-1.el6.src.rpm",
-                  "originalRepo": "http://dmc-repo.web.cern.ch/dmc-repo/el6/x86_64/",
+                  "originalRepo": "http://oc-repo.web.cern.ch/dmc-repo/el6/x86_64/",
                   "name": "davix"
                }
             ]

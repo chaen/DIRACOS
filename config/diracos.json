@@ -543,8 +543,8 @@
                   "buildOnly": true
                },
                {
-                  "src": "https://diracos.web.cern.ch/diracos/SRPM/gfal2-2.17.1-1.el6_10.src.rpm",
-                  "originalRepo": "https://dl.fedoraproject.org/pub/epel/6/SRPMS/Packages/",
+                  "src": "http://dmc-repo.web.cern.ch/dmc-repo/testing/el6/x86_64/gfal2-2.17.3-r2006021824.el6.src.rpm",
+                  "originalRepo": "http://dmc-repo.web.cern.ch/dmc-repo/el6/x86_64/ (OR  /dmc-repo/testing)",
                   "excludePatterns": [
                      ".*-doc-.*",
                      ".*-debuginfo-.*",

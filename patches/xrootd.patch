@@ -1,22 +1,22 @@
-diff -r -u original/xrootd.spec patched/xrootd.spec
---- original/xrootd.spec        2020-02-03 09:55:51.000000000 +0000
-+++ patched/xrootd.spec 2020-02-21 13:47:58.377652275 +0000
-@@ -96,11 +96,6 @@
+diff -u -r original/xrootd.spec modified/xrootd.spec
+--- original/xrootd.spec	2020-07-07 15:25:31.000000000 +0200
++++ modified/xrootd.spec	2020-07-16 11:11:53.912824270 +0200
+@@ -98,11 +98,6 @@
  BuildRequires: json-c-devel
-
+ 
  BuildRequires: python2-devel
 -%if %{?fedora}%{!?fedora:0} >= 13
 -BuildRequires: python3-devel
 -%else
 -BuildRequires: python%{python3_pkgversion}-devel
 -%endif
-
+ 
  BuildRequires: openssl-devel
-
-@@ -316,21 +311,6 @@
+ 
+@@ -319,21 +314,6 @@
  %description -n python2-xrootd
  Python 2 bindings for XRootD
-
+ 
 -%if %{?_with_python3:1}%{!?_with_python3:0}
 -#-------------------------------------------------------------------------------
 -# python3
@@ -32,44 +32,45 @@ diff -r -u original/xrootd.spec patched/xrootd.spec
 -%description -n python3-xrootd
 -Python 3 bindings for XRootD
 -%endif
-
+ 
  #-------------------------------------------------------------------------------
  # doc
-@@ -448,12 +428,6 @@
+@@ -464,12 +444,6 @@
  
  doxygen Doxyfile
-
+ 
 -%if %{?_with_python3:1}%{!?_with_python3:0}
 -# build python3 bindings
 -pushd build/bindings/python
 -%py3_build
 -popd
 -%endif
-
+ 
  #-------------------------------------------------------------------------------
  # Installation
-@@ -546,12 +520,6 @@
+@@ -562,12 +536,6 @@
  install -m 644 -p packaging/common/xrootd.pp \
      %{buildroot}%{_datadir}/selinux/packages/%{name}/%{name}.pp
-
+ 
 -%if %{?_with_python3:1}%{!?_with_python3:0}
 -# install python3 bindings
 -pushd build/bindings/python
 -%py3_install
 -popd
 -%endif
-
+ 
  %clean
  rm -rf $RPM_BUILD_ROOT
-@@ -829,11 +797,6 @@
- %files -n python2-%{name} -f xrootd/build/PYTHON_INSTALLED_FILES
- %defattr(-,root,root,-)
-
+@@ -861,12 +829,6 @@
+ %doc %{_mandir}/man1/libXrdVoms.1.gz
+ %doc %{_mandir}/man1/libXrdSecgsiVOMS.1.gz
+ 
 -%if %{?_with_python3:1}%{!?_with_python3:0}
 -%files -n python3-%{name}
 -%defattr(-,root,root,-)
 -%{python3_sitearch}/*
 -%endif
-
+-
  %files doc
  %defattr(-,root,root,-)
+ %doc %{_docdir}/%{name}-%{version}
